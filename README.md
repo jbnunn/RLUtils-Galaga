@@ -15,15 +15,17 @@ Identifies frame(s) in which the player gets a kill, and provides last-n moves t
 
 ### Data Format
 
-* Frames contain Numpy arrays of 3-channel pixel data and the associated "move" for each frame. The sample provided has a shape of `(450,358,3)`.
-* The move is one of the following one-hot vectors:
+Frames contain Numpy arrays of 3-channel pixel data as the first element and the associated "move" for each frame as the second.
 
-    [1, 0, 0, 0, ,0 ,0] # left + fire
-    [0, 1, 0, 0, ,0 ,0] # right + fire
-    [0, 0, 1, 0, ,0 ,0] # left
-    [0, 0, 0, 1, ,0 ,0] # right
-    [0, 0, 0, 0, ,1 ,0] # fire
-    [0, 0, 0, 0, ,0 ,1] # (no move)
+* The first element of pixel data has a shape of (450, 358, 3)
+* The second element if the move represented as one of the following one-hot vector encodings:
+    
+        [1, 0, 0, 0, ,0 ,0] # left + fire
+        [0, 1, 0, 0, ,0 ,0] # right + fire
+        [0, 0, 1, 0, ,0 ,0] # left
+        [0, 0, 0, 1, ,0 ,0] # right
+        [0, 0, 0, 0, ,1 ,0] # fire
+        [0, 0, 0, 0, ,0 ,1] # (no move)
     
 ## Getting Started
 
