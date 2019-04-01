@@ -1,3 +1,12 @@
+'''
+This is a utility file to view a particular frame within captured frame data:
+
+Usage:
+
+    python view.py sample.npy
+
+'''
+
 import numpy as np
 import cv2
 import sys
@@ -17,11 +26,12 @@ def convert_encoding_to_move(encoding):
     elif encoding == [0, 0, 0, 0, 0, 1]:
         return "-"
 
-def debug_frame(frame):
+def debug_frame(frame, frame_num):
 
     img = frame[0]
     control = frame[1]
-    move = convert_encoding_to_move(control)
+
+    label = str(frame_num) + ": " + convert_encoding_to_move(control)
 
     width = img.shape[1]
     height = img.shape[0]
@@ -32,7 +42,7 @@ def debug_frame(frame):
     overlay_img = cv2.cvtColor(np.zeros((height, width), np.uint8),cv2.COLOR_GRAY2RGB)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(overlay_img, move, (overlay_x, overlay_y), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(overlay_img, label, (overlay_x, overlay_y), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
     composite_img = cv2.addWeighted(img, 0.7, overlay_img, 0.7, 0)
 
@@ -56,21 +66,19 @@ def view(file):
         i = 0
         while i < len(frames):
             frame = frames[i]
-            k = debug_frame(frame)
+            k = debug_frame(frame, i)
             if k == 'exit':
                 cv2.destroyAllWindows()
                 exit()
             elif k == 'step_back':
                 i -= 1
+                if i < 0:
+                    i = 0
             elif k == 'step_forward':
                 i += 1
 
-'''
-Usage:
 
-    python view.py sample.npy
 
-'''
 if __name__=="__main__":
 
     try:
