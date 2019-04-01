@@ -26,11 +26,34 @@ def convert_encoding_to_move(encoding):
     elif encoding == [0, 0, 0, 0, 0, 1]:
         return "-"
 
+'''
+Takes frame pixels as input and draws bounding boxes around
+various features, like an exploding hero ship
+'''
+def highlight_features(frame):
+    hero = np.load('./hero.npy')
+
+    w, h, _ = hero.shape
+    res = cv2.matchTemplate(frame, hero, cv2.TM_CCOEFF_NORMED)
+
+    threshold = 0.8
+    loc = np.where( res >= threshold)
+
+    for pt in zip(*loc[::-1]):
+        cv2.rectangle(frame, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
+
+    return frame
+
+'''
+Takes a frame as input and adds the frame number, encoded key value, and adds
+any bounding boxes to highlight features (like explosions)
+'''
 def debug_frame(frame, frame_num):
 
-    img = frame[0]
+    img = highlight_features(frame[0])
     control = frame[1]
 
+    # Create the label with frame number and decoded move (i.e., "left", "right", etc.)
     label = str(frame_num) + ": " + convert_encoding_to_move(control)
 
     width = img.shape[1]
