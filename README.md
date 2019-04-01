@@ -29,6 +29,8 @@ Frames contain Numpy arrays of 3-channel pixel data as the first element and the
     
 ## Getting Started
 
+### About the sample data
+
 There are 498 frames of sample data in `sample.npz`. You can decompress the file to make it easier to work with:
 
     >>> import numpy as np
@@ -51,3 +53,17 @@ There are 498 frames of sample data in `sample.npz`. You can decompress the file
     >>> frame_0[1]
     [0, 0, 0, 1, 0, 0] # right
  
+### View the frames
+
+![](sample.png)
+
+Make sure you have OpenCV installed. Then, debug each frame of the sample frames with:
+
+    python view.py sample.npy
+
+Use the keypad `6` to step forward through the frames, and `4` to step backwards. If you don't have a keypad, or want to change the forward and back keys, you can make the changes in the `debug_frame` method.
+
+Use `q` to exit and destroy the window.
+
+
+
