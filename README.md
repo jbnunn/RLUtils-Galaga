@@ -76,7 +76,7 @@ We need to identify events to reward or penalize our RL model. We'll look for ex
 
 To identify explosions, we can search the pixel-space (using [OpenCV's matchTemplate](https://www.docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)) for images of explosions, like:
 
-![](hero.png)
+![](hero_explosion.png)
 
 We can even highlight ship explosions in realtime, 
 
