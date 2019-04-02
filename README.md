@@ -29,6 +29,11 @@ Frames contain Numpy arrays of 3-channel pixel data as the first element and the
     
 ## Getting Started
 
+### Pre-reqs
+
+* Python >= 3.6
+* Bandai Namco's "Arcade Game Series: Galaga" (Windows)
+
 ### About the sample data
 
 There are 498 frames of sample data in `sample.npz`. You can decompress the file to make it easier to work with:
@@ -65,5 +70,30 @@ Use the keypad `6` to step forward through the frames, and `4` to step backwards
 
 Use `q` to exit and destroy the window.
 
+### Detecting Objects
 
+We need to identify events to reward or penalize our RL model. We'll look for explosions of our hero's spacecraft as penalties and look to identify alien explosions or increases in score as rewards. 
 
+To identify explosions, we can search the pixel-space (using [OpenCV's matchTemplate](https://www.docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)) for images of explosions, like:
+
+![](hero.png)
+
+We can even highlight ship explosions in realtime, 
+
+![](detected_explosion.png)
+
+#### Alien Explosions (i.e., the reward)
+
+These turned out to be tricky, especially when multiple ships explode in relatively the same space. We can look at changes in score as a reward for destroying an alien ship:
+
+![](score.png)
+
+(TBD)
+
+You can test the detection on the sample frames with
+
+    python detect.py kills sample.npy # Enemy kills (alien explodes)
+
+or
+
+    python detect.py deaths sample.npy # Hero deaths (spaceship explodes)

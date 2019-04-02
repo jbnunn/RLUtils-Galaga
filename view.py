@@ -31,7 +31,7 @@ Takes frame pixels as input and draws bounding boxes around
 various features, like an exploding hero ship
 '''
 def highlight_features(frame):
-    hero = np.load('./hero.npy')
+    hero = np.load('./hero_explosion.npy')
 
     w, h, _ = hero.shape
     res = cv2.matchTemplate(frame, hero, cv2.TM_CCOEFF_NORMED)
@@ -86,6 +86,7 @@ def debug_frame(frame, frame_num):
 def view(file):
     while True:
         frames = np.load(file)
+        
         i = 0
         while i < len(frames):
             frame = frames[i]
@@ -99,8 +100,6 @@ def view(file):
                     i = 0
             elif k == 'step_forward':
                 i += 1
-
-
 
 if __name__=="__main__":
 
