@@ -74,9 +74,13 @@ Use `q` to exit and destroy the window.
 
 We need to identify events to reward or penalize our RL model. We'll look for explosions of our hero's spacecraft as penalties and look to identify alien explosions or increases in score as rewards. 
 
+![](hero_explosion.png)
+
 To identify explosions, we can search the pixel-space (using [OpenCV's matchTemplate](https://www.docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)) for images of explosions, like:
 
-![](hero_explosion.png)
+    res = cv2.matchTemplate(frame, hero_exp, cv2.TM_CCOEFF_NORMED)
+    threshold = 0.8
+    loc = np.where(res >= threshold)
 
 We can even highlight ship explosions in realtime, 
 

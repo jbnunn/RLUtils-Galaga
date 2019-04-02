@@ -72,7 +72,7 @@ def detect(event, file):
 
             res = cv2.matchTemplate(frame, hero_exp, cv2.TM_CCOEFF_NORMED)
             threshold = 0.8
-            loc = np.where( res >= threshold)
+            loc = np.where(res >= threshold)
 
             if len(loc[0]) > 0:
                 if len(events) == 0:
