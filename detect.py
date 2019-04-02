@@ -60,10 +60,10 @@ def detect(event, file):
     elif event == "deaths":
 
         # We're looking for an exploding hero ship based off the image in hero_explosion.png
-        # (encapsulated in pixel format for you at hero_explosion.npy). The explosion animation
-        # is 5 frames. We ignore the additional n + 4 frames after first detection
-        
-        hero_exp = np.load('./hero_explosion.npy')
+        # The explosion animation is 5 frames. We ignore the additional n + 4 frames after
+        # first detection
+
+        hero_exp = cv2.imread('./hero_explosion.png')
         w, h, _ = hero_exp.shape
 
         for i in range(len(frames)):

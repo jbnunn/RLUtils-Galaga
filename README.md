@@ -76,13 +76,14 @@ We need to identify events to reward or penalize our RL model. We'll look for ex
 
 ![](hero_explosion.png)
 
-To identify explosions, we can search the pixel-space (using [OpenCV's matchTemplate](https://www.docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)) for images of explosions, like:
+To identify explosions, we can search the pixel-space (using [OpenCV's matchTemplate](https://www.docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)) for images of explosions:
 
+    hero_exp = cv2.imread('./hero_explosion.png')
     res = cv2.matchTemplate(frame, hero_exp, cv2.TM_CCOEFF_NORMED)
     threshold = 0.8
     loc = np.where(res >= threshold)
 
-We can even highlight ship explosions in realtime, 
+Bonus: you can use that code to highlight ship explosions in realtime,
 
 ![](detected_explosion.png)
 
@@ -92,7 +93,18 @@ These turned out to be tricky, especially when multiple ships explode in relativ
 
 ![](score.png)
 
-(TBD)
+I tested Tesseract OCR against the images with some success, but it was slow, and I didn't like the idea of a binary as a dependency. So, we create a score ROI and compare the pixels of the last frame's score with the current frame's score.
+
+    SCORE_X1 = 0
+    SCORE_Y1 = 0
+    SCORE_X2 = 120
+    SCORE_Y2 = 13
+
+    ...
+
+    is_different = not np.array_equal(current_score, last_score)
+
+This is not full-proof either. Missiles flying up from your ship will sometimes cross the score indicator, causing the pixels to differe and register a false-positive for an alien explosion. Solution TBD.
 
 You can test the detection on the sample frames with
 
